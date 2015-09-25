@@ -1,12 +1,14 @@
 package com.example.arjun.osapitestapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -40,22 +42,36 @@ public class MainActivity extends Activity {
 
     /** Called when the user touches the button */
     public void handleClick(View view) {
-        // Do something in response to button click
         System.out.println("hello world!\n");
         // Gets location
         LocationListener mLocationListener = new LocationListener() {
             public void onLocationChanged(final Location location) {
-                // don't care
+                Context context = getApplicationContext();
+                CharSequence text = Double.toString(location.getLatitude()) + Double.toString(location.getLongitude());
+                int duration = Toast.LENGTH_SHORT;
+                Toast.makeText(context, text, duration).show();
             }
-            public void onStatusChanged(String dont, int really, Bundle care) {
-                // moo
+
+            public void onStatusChanged(String string, int num, Bundle bundle) {
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                CharSequence text = "String: " + string + ", " + "Integer: " + String.valueOf(num)
+                        + ", "+ "Bundle: " + bundle;
+                Toast.makeText(context, text, duration).show();
             }
-            public void onProviderEnabled(String merp) {
-                // hello
+
+            public void onProviderEnabled(String string) {
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                CharSequence text = "String: " + string;
+                Toast.makeText(context, text, duration).show();
             }
-            public void onProviderDisabled(String fish) {
-                // moo
-            }
+
+            public void onProviderDisabled(String string) {
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_SHORT;
+                CharSequence text = "String: " + string;
+                Toast.makeText(context, text, duration).show();            }
         };
     }
 }
