@@ -1,9 +1,12 @@
 package com.example.arjun.osapitestapp;
 
 import android.app.Activity;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -33,5 +36,26 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /** Called when the user touches the button */
+    public void handleClick(View view) {
+        // Do something in response to button click
+        System.out.println("hello world!\n");
+        // Gets location
+        LocationListener mLocationListener = new LocationListener() {
+            public void onLocationChanged(final Location location) {
+                // don't care
+            }
+            public void onStatusChanged(String dont, int really, Bundle care) {
+                // moo
+            }
+            public void onProviderEnabled(String merp) {
+                // hello
+            }
+            public void onProviderDisabled(String fish) {
+                // moo
+            }
+        };
     }
 }
