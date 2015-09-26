@@ -15,6 +15,7 @@ import android.provider.CallLog;
 import android.telecom.TelecomManager;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
+import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,13 +122,20 @@ public class MainActivity extends Activity {
 
     public void testLocation() {
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        GsmCellLocation location = (GsmCellLocation) tm.getCellLocation();
-        if (location == null) {
-            Toast.makeText(getApplicationContext(), "Location is Null", Toast.LENGTH_SHORT);
-        } else {
+        if (tm.getPhoneType() == 0x00000001) {
+            GsmCellLocation location = (GsmCellLocation) tm.getCellLocation();
             print("Cid: " + location.getCid());
             print("Lac: " + location.getLac());
         }
+        if (tm.getPhoneType() == 0x00000002) {
+            CdmaCellLocation location = (CdmaCellLocation) tm.getCellLocation();
+            print("BaseStationLatitude: " + location.getBaseStationLatitude());
+        }
+        if (tm.getPhoneType() == 0x00000003) {
+            print("Returns null");
+        }
+        if (tm.getPhoneType() == 0x00000000) {
+            print("Location is none");        }
     }
 
     public void testSms() {
