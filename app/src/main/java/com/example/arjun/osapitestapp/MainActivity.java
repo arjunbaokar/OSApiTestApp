@@ -99,12 +99,10 @@ public class MainActivity extends Activity {
         mCur.moveToFirst();
         String title, url;
         if (mCur.moveToFirst() && mCur.getCount() > 0) {
-            while (!mCur.isAfterLast()) {
-                title = mCur.getString(mCur.getColumnIndex(Browser.BookmarkColumns.TITLE));
-                url = mCur.getString(mCur.getColumnIndex(Browser.BookmarkColumns.URL));
-                print("Title: " + title + " Url: " + url);
-                mCur.moveToNext();
-            }
+            title = mCur.getString(mCur.getColumnIndex(Browser.BookmarkColumns.TITLE));
+            url = mCur.getString(mCur.getColumnIndex(Browser.BookmarkColumns.URL));
+            print("Title: " + title + " Url: " + url);
+            mCur.moveToNext();
         }
     }
 
