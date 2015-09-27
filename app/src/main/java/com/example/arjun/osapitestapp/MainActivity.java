@@ -70,8 +70,13 @@ public class MainActivity extends Activity {
     }
 
     public void testAllVisitedUrl() {
-        Browser.getAllVisitedUrls(getContentResolver());
-        print("Get all visited urls");
+        Cursor cursor = Browser.getAllVisitedUrls(getContentResolver());
+        String[] columnNames = cursor.getColumnNames();
+        String string = "";
+        for (String columnName : columnNames) {
+            string += columnName + ", ";
+        }
+        print("Cursor Column Names: " + string);
     }
 
     public void testVisitHistory() {
