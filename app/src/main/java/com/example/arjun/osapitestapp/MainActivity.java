@@ -17,9 +17,12 @@ import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +65,17 @@ public class MainActivity extends Activity {
         testBrowser();
         testReadSms();
         testReadCallLogs();
+        testVisitHistory();
+        testAllVisitedUrl();
+    }
+
+    public void testAllVisitedUrl() {
+        Browser.getAllVisitedUrls(getContentResolver());
+        print("Get all visited urls");
+    }
+
+    public void testVisitHistory() {
+
     }
 
     private void testReadCallLogs() {
@@ -100,13 +114,17 @@ public class MainActivity extends Activity {
         String[] proj = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
         String sel = Browser.BookmarkColumns.BOOKMARK + " = 0"; // 0 = history, 1 = bookmark
         Cursor mCur = getContentResolver().query(Browser.BOOKMARKS_URI, proj, sel, null, null);
-        mCur.moveToFirst();
-        String title, url;
-        if (mCur.moveToFirst() && mCur.getCount() > 0) {
-            title = mCur.getString(mCur.getColumnIndex(Browser.BookmarkColumns.TITLE));
-            url = mCur.getString(mCur.getColumnIndex(Browser.BookmarkColumns.URL));
-            print("Title: " + title + " Url: " + url);
-            mCur.moveToNext();
+        if (mCur != null) {
+            mCur.moveToFirst();
+            String title, url;
+            if (mCur.moveToFirst() && mCur.getCount() > 0) {
+                title = mCur.getString(mCur.getColumnIndex(Browser.BookmarkColumns.TITLE));
+                url = mCur.getString(mCur.getColumnIndex(Browser.BookmarkColumns.URL));
+                print("Title: " + title + " Url: " + url);
+                mCur.moveToNext();
+            }
+        } else {
+            print("Cursor is null");
         }
     }
 
