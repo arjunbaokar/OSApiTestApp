@@ -66,7 +66,9 @@ public class MainActivity extends Activity {
 
     private void testReadCallLogs() {
         Cursor cursor = getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, null);
-        if (cursor.moveToFirst()) {
+        if (cursor == null) {
+            print("Cursor is null");
+        } else if (cursor.moveToFirst()) {
             String data = "";
             for(int idx=0;idx<cursor.getColumnCount();idx++)
             {
@@ -80,7 +82,9 @@ public class MainActivity extends Activity {
 
     public void testReadSms() {
         Cursor cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
-        if (cursor.moveToFirst()) {
+        if (cursor == null) {
+            print("Cursor is null");
+        } else if (cursor.moveToFirst()) {
             String msgData = "";
             for(int idx=0;idx<cursor.getColumnCount();idx++)
             {
