@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
     /** Called when the user touches the button */
     public void locationClick(View view) {
         testCellLocation();
+        testGpsLocation();
     }
 
     public void smsClick(View view) {
@@ -120,7 +121,7 @@ public class MainActivity extends Activity {
     }
 
     public void testReadSms() {
-        // FIXME: doesn't work
+        // FIXME: for some reason, only works for SMS_ALL
 
         // Use these to toggle between which sms set you want to read
         final String SMS_ALL = "content://sms/";
@@ -146,7 +147,8 @@ public class MainActivity extends Activity {
     }
 
     public void testBrowser() {
-        // TODO: test that this actually works
+        // TODO: find a way to test this for default browser (fails for Chrome)
+        print("----Browser bookmarks----");
         String[] proj = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
         String sel = Browser.BookmarkColumns.BOOKMARK + " = 0"; // 0 = history, 1 = bookmark
         Cursor mCur = getContentResolver().query(Browser.BOOKMARKS_URI, proj, sel, null, null);
@@ -165,10 +167,23 @@ public class MainActivity extends Activity {
     }
 
     public void testWriteSyncSettings() {
-        // TODO: test that this actually works
+        print("----Writing to sync settings----");
         ContentResolver resolver = getContentResolver();
-        resolver.setMasterSyncAutomatically(true); // this does not return anything though
-        print("Sync enabled");
+        resolver.setMasterSyncAutomatically(true);
+        boolean syncSettingTrue = resolver.getMasterSyncAutomatically();
+        resolver.setMasterSyncAutomatically(false);
+        boolean syncSettingFalse = resolver.getMasterSyncAutomatically();
+        if (syncSettingTrue && !syncSettingFalse) {
+            print("Sync updated successfully");
+        }
+        else {
+            if (!syncSettingTrue) {
+                print("True setting failed");
+            }
+            if (syncSettingFalse) {
+                print("False setting failed");
+            }
+        }
     }
 
     public void testWifi() {
@@ -179,6 +194,7 @@ public class MainActivity extends Activity {
 
     public void testCellLocation() {
         // FIXME: doesn't work, returns no location
+        print("----Cell Location----");
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (tm.getPhoneType() == 0x00000001) {
             GsmCellLocation location = (GsmCellLocation) tm.getCellLocation();
