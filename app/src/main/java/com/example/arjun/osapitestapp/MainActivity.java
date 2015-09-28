@@ -120,6 +120,8 @@ public class MainActivity extends Activity {
     }
 
     public void testReadSms() {
+        // FIXME: doesn't work
+
         // Use these to toggle between which sms set you want to read
         final String INBOX = "content://sms/inbox";
         final String DRAFT = "content://sms/draft";
@@ -141,6 +143,7 @@ public class MainActivity extends Activity {
     }
 
     public void testBrowser() {
+        // TODO: test that this actually works
         String[] proj = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
         String sel = Browser.BookmarkColumns.BOOKMARK + " = 0"; // 0 = history, 1 = bookmark
         Cursor mCur = getContentResolver().query(Browser.BOOKMARKS_URI, proj, sel, null, null);
