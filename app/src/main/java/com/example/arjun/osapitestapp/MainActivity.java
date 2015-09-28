@@ -4,27 +4,20 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.location.Location;
-import android.location.LocationListener;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Browser;
 import android.provider.CallLog;
-import android.telecom.TelecomManager;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -58,7 +51,7 @@ public class MainActivity extends Activity {
 
     /** Called when the user touches the button */
     public void locationClick(View view) {
-        testLocation();
+        testCellLocation();
     }
 
     public void smsClick(View view) {
@@ -106,6 +99,10 @@ public class MainActivity extends Activity {
         // TODO: Implement this
     }
 
+    public void testGpsLocation() {
+        // TODO: Implement this
+    }
+
     private void testReadCallLogs() {
         Cursor cursor = getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, null);
         if (cursor == null) {
@@ -123,7 +120,12 @@ public class MainActivity extends Activity {
     }
 
     public void testReadSms() {
-        Cursor cursor = getContentResolver().query(Uri.parse("content://sms/sent"), null, null, null, null);
+        // Use these to toggle between which sms set you want to read
+        final String INBOX = "content://sms/inbox";
+        final String DRAFTS = "content://sms/drafts";
+        final String SENT = "content://sms/sent";
+
+        Cursor cursor = getContentResolver().query(Uri.parse(DRAFTS), null, null, null, null);
         if (cursor == null) {
             print("Cursor is null");
         } else if (cursor.moveToFirst()) {
@@ -157,6 +159,7 @@ public class MainActivity extends Activity {
     }
 
     public void testWriteSyncSettings() {
+        // TODO: test that this actually works
         ContentResolver resolver = getContentResolver();
         resolver.setMasterSyncAutomatically(true); // this does not return anything though
         print("Sync enabled");
@@ -168,7 +171,8 @@ public class MainActivity extends Activity {
         print("Connection Info: " + connectionInfo.getSSID());
     }
 
-    public void testLocation() {
+    public void testCellLocation() {
+        // FIXME: doesn't work, returns no location
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (tm.getPhoneType() == 0x00000001) {
             GsmCellLocation location = (GsmCellLocation) tm.getCellLocation();
