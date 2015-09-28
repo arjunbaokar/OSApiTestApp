@@ -122,10 +122,10 @@ public class MainActivity extends Activity {
     public void testReadSms() {
         // Use these to toggle between which sms set you want to read
         final String INBOX = "content://sms/inbox";
-        final String DRAFTS = "content://sms/drafts";
+        final String DRAFT = "content://sms/draft";
         final String SENT = "content://sms/sent";
 
-        Cursor cursor = getContentResolver().query(Uri.parse(DRAFTS), null, null, null, null);
+        Cursor cursor = getContentResolver().query(Uri.parse(DRAFT), null, null, null, null);
         if (cursor == null) {
             print("Cursor is null");
         } else if (cursor.moveToFirst()) {
