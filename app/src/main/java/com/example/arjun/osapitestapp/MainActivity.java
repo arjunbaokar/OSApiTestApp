@@ -123,11 +123,14 @@ public class MainActivity extends Activity {
         // FIXME: doesn't work
 
         // Use these to toggle between which sms set you want to read
+        final String SMS_ALL = "content://sms/";
         final String INBOX = "content://sms/inbox";
         final String DRAFT = "content://sms/draft";
         final String SENT = "content://sms/sent";
 
-        Cursor cursor = getContentResolver().query(Uri.parse(DRAFT), null, null, null, null);
+        print("----testReadSms----");
+
+        Cursor cursor = getContentResolver().query(Uri.parse(SMS_ALL), null, null, null, null);
         if (cursor == null) {
             print("Cursor is null");
         } else if (cursor.moveToFirst()) {
@@ -194,6 +197,7 @@ public class MainActivity extends Activity {
     }
 
     public void testSendSms() {
+        print("----testReadSms----");
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage("5556", null, "Testing sendSms", null, null);
         print("Message Sent");
