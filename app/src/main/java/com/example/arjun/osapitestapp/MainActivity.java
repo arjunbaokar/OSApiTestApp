@@ -89,7 +89,7 @@ public class MainActivity extends Activity {
 
     public void clearClick(View view) {
         TextView textView = (TextView) findViewById(R.id.textView2);
-        textView.clearComposingText();
+        textView.setText("");
     }
 
     public void testAllVisitedUrl() {
