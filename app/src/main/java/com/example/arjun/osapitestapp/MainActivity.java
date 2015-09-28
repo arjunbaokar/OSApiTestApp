@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
     }
 
     public void browserClick(View view) {
-        testChromeBookmarks();
+        testChromeHistory();
     }
 
     public void callLogsClick(View view) {
@@ -152,7 +152,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void testChromeBookmarks() {
+    public void testChromeHistory() {
         print("----Chrome bookmarks----");
         final Uri CHROME_BOOKMARKS_URI = Uri.parse("content://com.android.chrome.browser/bookmarks");
         String[] proj = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
