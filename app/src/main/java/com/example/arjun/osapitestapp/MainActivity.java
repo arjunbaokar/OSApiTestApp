@@ -57,16 +57,39 @@ public class MainActivity extends Activity {
     }
 
     /** Called when the user touches the button */
-    public void handleClick(View view) {
+    public void locationClick(View view) {
         testLocation();
-        testSms();
-        testWifi();
-        testWriteSyncSettings();
-        testBrowser();
+    }
+
+    public void smsClick(View view) {
         testReadSms();
+        testSendSms();
+    }
+
+    public void wifiClick(View view) {
+        testWifi();
+    }
+
+    public void syncClick (View view) {
+        testWriteSyncSettings();
+    }
+
+    public void browserClick(View view) {
+        testBrowser();
+    }
+
+    public void callLogsClick(View view) {
         testReadCallLogs();
+    }
+
+    public void visitClick(View view) {
         testVisitHistory();
         testAllVisitedUrl();
+    }
+
+    public void clearClick(View view) {
+        TextView textView = (TextView) findViewById(R.id.textView2);
+        textView.clearComposingText();
     }
 
     public void testAllVisitedUrl() {
@@ -80,7 +103,7 @@ public class MainActivity extends Activity {
     }
 
     public void testVisitHistory() {
-
+        // TODO: Implement this
     }
 
     private void testReadCallLogs() {
@@ -163,9 +186,9 @@ public class MainActivity extends Activity {
             print("Location is none");        }
     }
 
-    public void testSms() {
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage("5556", null, "Testing sendSms", null, null);
+    public void testSendSms() {
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage("5556", null, "Testing sendSms", null, null);
         print("Message Sent");
     }
     public void print(String string) {

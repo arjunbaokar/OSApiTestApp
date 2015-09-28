@@ -9,18 +9,88 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
+        android:text="Location"
+        android:id="@+id/location_button"
         android:nestedScrollingEnabled="false"
-        android:onClick="handleClick"
+        android:onClick="locationClick"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SMS"
+        android:id="@+id/sms_button"
+        android:nestedScrollingEnabled="false"
+        android:onClick="smsClick"
+        android:layout_alignTop="@+id/location_button"
+        android:layout_toEndOf="@+id/location_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wifi"
+        android:id="@+id/wifi_button"
+        android:nestedScrollingEnabled="false"
+        android:onClick="wifiClick"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/sms_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sync"
+        android:id="@+id/sync_button"
+        android:nestedScrollingEnabled="false"
+        android:onClick="syncClick"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/wifi_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Browser"
+        android:id="@+id/browser_button"
+        android:nestedScrollingEnabled="false"
+        android:onClick="browserClick"
+        android:layout_below="@id/location_button"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Call Logs"
+        android:id="@+id/call_logs_button"
+        android:nestedScrollingEnabled="false"
+        android:onClick="callLogsClick"
+        android:layout_below="@id/sms_button"
+        android:layout_toEndOf="@id/browser_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Visits"
+        android:id="@+id/visit_button"
+        android:nestedScrollingEnabled="false"
+        android:onClick="visitClick"
+        android:layout_below="@id/wifi_button"
+        android:layout_toEndOf="@id/call_logs_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:id="@+id/clear_button"
+        android:nestedScrollingEnabled="false"
+        android:onClick="clearClick"
+        android:layout_below="@id/sync_button"
+        android:layout_toEndOf="@id/visit_button" />
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_below="@+id/button"
+        android:layout_below="@+id/browser_button"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true">
@@ -34,5 +104,6 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true" />
     </ScrollView>
+
 
 </RelativeLayout>
