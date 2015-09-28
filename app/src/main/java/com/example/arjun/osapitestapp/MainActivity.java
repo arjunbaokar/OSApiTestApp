@@ -70,7 +70,8 @@ public class MainActivity extends Activity {
 
     public void browserClick(View view) {
         testChromeHistory();
-        testAllVisitedUrl();
+        testAllVisitedUrls();
+        testAllBookmarks();
     }
 
     public void callLogsClick(View view) {
@@ -86,11 +87,23 @@ public class MainActivity extends Activity {
         textView.setText("");
     }
 
-    public void testAllVisitedUrl() {
+    public void testAllVisitedUrls() {
         // FIXME: this just crashes
         print("----All Visited URLs----");
         Cursor cursor = Browser.getAllVisitedUrls(getContentResolver());
-        String[] columnNames = cursor.getColumnNames();
+        String[] columnNames = cursor.getCount();
+        String toReturn = "";
+        for (String columnName : columnNames) {
+            toReturn += columnName + ", ";
+        }
+        print("Cursor Column Names: " + toReturn);
+    }
+
+    public void testAllBookmarks() {
+        // FIXME: this doesn't work
+        print("----All Bookmarks----");
+        Cursor cursor = Browser.getAllBookmarks(getContentResolver());
+        cursor.getCount();
         String toReturn = "";
         for (String columnName : columnNames) {
             toReturn += columnName + ", ";
@@ -99,6 +112,7 @@ public class MainActivity extends Activity {
     }
 
     public void testNfc() {
+        // TODO: implement this
         print("----NFC----");
         print("Not implemented.");
     }
