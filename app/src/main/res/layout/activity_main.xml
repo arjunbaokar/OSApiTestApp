@@ -69,10 +69,10 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Visits"
-        android:id="@+id/visit_button"
+        android:text="NFC"
+        android:id="@+id/nfc_button"
         android:nestedScrollingEnabled="false"
-        android:onClick="visitClick"
+        android:onClick="nfcClick"
         android:layout_below="@id/wifi_button"
         android:layout_toEndOf="@id/call_logs_button" />
 
@@ -84,7 +84,7 @@
         android:nestedScrollingEnabled="false"
         android:onClick="clearClick"
         android:layout_below="@id/sync_button"
-        android:layout_toEndOf="@id/visit_button" />
+        android:layout_toEndOf="@id/nfc_button" />
 
     <ScrollView
         android:layout_width="wrap_content"

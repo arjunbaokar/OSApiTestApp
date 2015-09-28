@@ -70,15 +70,15 @@ public class MainActivity extends Activity {
 
     public void browserClick(View view) {
         testChromeHistory();
+        testAllVisitedUrl();
     }
 
     public void callLogsClick(View view) {
         testReadCallLogs();
     }
 
-    public void visitClick(View view) {
-        testVisitHistory();
-        testAllVisitedUrl();
+    public void nfcClick(View view) {
+        testNfc();
     }
 
     public void clearClick(View view) {
@@ -91,17 +91,16 @@ public class MainActivity extends Activity {
         print("----All Visited URLs----");
         Cursor cursor = Browser.getAllVisitedUrls(getContentResolver());
         String[] columnNames = cursor.getColumnNames();
-        String string = "";
+        String toReturn = "";
         for (String columnName : columnNames) {
-            string += columnName + ", ";
+            toReturn += columnName + ", ";
         }
-        print("Cursor Column Names: " + string);
+        print("Cursor Column Names: " + toReturn);
     }
 
-    public void testVisitHistory() {
-        // TODO: Implement this
-        print("----Visit History----");
-        print("Not implemented."); //remove this
+    public void testNfc() {
+        print("----NFC----");
+        print("Not implemented.");
     }
 
     public void testGpsLocation() {
@@ -128,7 +127,7 @@ public class MainActivity extends Activity {
     }
 
     public void testReadSms() {
-        // FIXME: for some reason, only works for SMS_ALL
+        // FIXME: (not urgent) for some reason, only works for SMS_ALL
         print("----testReadSms----");
 
         // Use these to toggle between which sms set you want to read
