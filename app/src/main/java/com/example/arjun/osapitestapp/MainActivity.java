@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
     }
 
     public void browserClick(View view) {
-        testBrowser();
+        testChromeBookmarks();
     }
 
     public void callLogsClick(View view) {
@@ -87,6 +87,8 @@ public class MainActivity extends Activity {
     }
 
     public void testAllVisitedUrl() {
+        // FIXME: this just crashes
+        print("----All Visited URLs----");
         Cursor cursor = Browser.getAllVisitedUrls(getContentResolver());
         String[] columnNames = cursor.getColumnNames();
         String string = "";
@@ -98,13 +100,18 @@ public class MainActivity extends Activity {
 
     public void testVisitHistory() {
         // TODO: Implement this
+        print("----Visit History----");
+        print("Not implemented."); //remove this
     }
 
     public void testGpsLocation() {
         // TODO: Implement this
+        print("----GPS Location----");
+        print("Not implemented."); // remove this
     }
 
     private void testReadCallLogs() {
+        print("----Read Call Logs----");
         Cursor cursor = getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, null);
         if (cursor == null) {
             print("Cursor is null");
@@ -122,14 +129,13 @@ public class MainActivity extends Activity {
 
     public void testReadSms() {
         // FIXME: for some reason, only works for SMS_ALL
+        print("----testReadSms----");
 
         // Use these to toggle between which sms set you want to read
         final String SMS_ALL = "content://sms/";
         final String INBOX = "content://sms/inbox";
         final String DRAFT = "content://sms/draft";
         final String SENT = "content://sms/sent";
-
-        print("----testReadSms----");
 
         Cursor cursor = getContentResolver().query(Uri.parse(SMS_ALL), null, null, null, null);
         if (cursor == null) {
@@ -146,12 +152,12 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void testBrowser() {
-        // TODO: find a way to test this for default browser (fails for Chrome)
-        print("----Browser bookmarks----");
+    public void testChromeBookmarks() {
+        print("----Chrome bookmarks----");
+        final Uri CHROME_BOOKMARKS_URI = Uri.parse("content://com.android.chrome.browser/bookmarks");
         String[] proj = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
         String sel = Browser.BookmarkColumns.BOOKMARK + " = 0"; // 0 = history, 1 = bookmark
-        Cursor mCur = getContentResolver().query(Browser.BOOKMARKS_URI, proj, sel, null, null);
+        Cursor mCur = getContentResolver().query(CHROME_BOOKMARKS_URI, proj, sel, null, null);
         if (mCur != null) {
             mCur.moveToFirst();
             String title, url;
@@ -167,7 +173,7 @@ public class MainActivity extends Activity {
     }
 
     public void testWriteSyncSettings() {
-        print("----Writing to sync settings----");
+        print("----Update and Check sync settings----");
         ContentResolver resolver = getContentResolver();
         resolver.setMasterSyncAutomatically(true);
         boolean syncSettingTrue = resolver.getMasterSyncAutomatically();
@@ -187,6 +193,7 @@ public class MainActivity extends Activity {
     }
 
     public void testWifi() {
+        print("----Wifi SSID----");
         WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo connectionInfo = wifiManager.getConnectionInfo();
         print("Connection Info: " + connectionInfo.getSSID());
