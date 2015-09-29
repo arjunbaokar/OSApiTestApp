@@ -126,7 +126,6 @@ public class MainActivity extends Activity {
     }
 
     public void testGpsLocation() {
-        // TODO: Implement this
         print("----GPS Location----");
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
