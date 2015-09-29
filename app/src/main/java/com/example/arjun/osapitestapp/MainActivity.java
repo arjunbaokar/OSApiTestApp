@@ -152,7 +152,7 @@ public class MainActivity extends Activity {
     }
 
     public void testReadSms() {
-        // FIXME: (not urgent) for some reason, only works for SMS_ALL
+        // FIXME: (not critical) for some reason, only works for SMS_ALL
         print("----testReadSms----");
 
         // Use these to toggle between which sms set you want to read
