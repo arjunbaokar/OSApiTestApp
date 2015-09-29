@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
         // FIXME: this just crashes
         print("----All Visited URLs----");
         Cursor cursor = Browser.getAllVisitedUrls(getContentResolver());
-        String[] columnNames = cursor.getCount();
+        String[] columnNames = cursor.getColumnNames();
         String toReturn = "";
         for (String columnName : columnNames) {
             toReturn += columnName + ", ";
@@ -103,7 +103,7 @@ public class MainActivity extends Activity {
         // FIXME: this doesn't work
         print("----All Bookmarks----");
         Cursor cursor = Browser.getAllBookmarks(getContentResolver());
-        cursor.getCount();
+        String[] columnNames = cursor.getColumnNames();
         String toReturn = "";
         for (String columnName : columnNames) {
             toReturn += columnName + ", ";
