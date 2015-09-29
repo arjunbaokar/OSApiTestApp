@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -126,7 +128,11 @@ public class MainActivity extends Activity {
     public void testGpsLocation() {
         // TODO: Implement this
         print("----GPS Location----");
-        print("Not implemented."); // remove this
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        print("Last known GPS location: " + lastKnownLocation);
+        lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        print("Last known passive location: " + lastKnownLocation);
     }
 
     private void testReadCallLogs() {
