@@ -224,7 +224,6 @@ public class MainActivity extends Activity {
     }
 
     public void testCellLocation() {
-        // FIXME: doesn't work, returns no location
         print("----Cell Location----");
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         if (tm.getPhoneType() == 0x00000001) {
