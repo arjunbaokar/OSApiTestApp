@@ -88,27 +88,33 @@ public class MainActivity extends Activity {
     }
 
     public void testAllVisitedUrls() {
-        // FIXME: this just crashes
         print("----All Visited URLs----");
         Cursor cursor = Browser.getAllVisitedUrls(getContentResolver());
-        String[] columnNames = cursor.getColumnNames();
-        String toReturn = "";
-        for (String columnName : columnNames) {
-            toReturn += columnName + ", ";
+        if (cursor != null) {
+            String[] columnNames = cursor.getColumnNames();
+            String toReturn = "";
+            for (String columnName : columnNames) {
+                toReturn += columnName + ", ";
+            }
+            print("Cursor Column Names: " + toReturn);
+        } else {
+            print("Cursor is null");
         }
-        print("Cursor Column Names: " + toReturn);
     }
 
     public void testAllBookmarks() {
-        // FIXME: this doesn't work
         print("----All Bookmarks----");
         Cursor cursor = Browser.getAllBookmarks(getContentResolver());
-        String[] columnNames = cursor.getColumnNames();
-        String toReturn = "";
-        for (String columnName : columnNames) {
-            toReturn += columnName + ", ";
+        if (cursor != null) {
+            String[] columnNames = cursor.getColumnNames();
+            String toReturn = "";
+            for (String columnName : columnNames) {
+                toReturn += columnName + ", ";
+            }
+            print("Cursor Column Names: " + toReturn);
+        } else {
+            print("Cursor is null");
         }
-        print("Cursor Column Names: " + toReturn);
     }
 
     public void testNfc() {
@@ -166,7 +172,7 @@ public class MainActivity extends Activity {
     }
 
     public void testChromeHistory() {
-        print("----Chrome bookmarks----");
+        print("----Chrome History----");
         final Uri CHROME_BOOKMARKS_URI = Uri.parse("content://com.android.chrome.browser/bookmarks");
         String[] proj = new String[] { Browser.BookmarkColumns.TITLE, Browser.BookmarkColumns.URL };
         String sel = Browser.BookmarkColumns.BOOKMARK + " = 0"; // 0 = history, 1 = bookmark
@@ -233,7 +239,7 @@ public class MainActivity extends Activity {
     }
 
     public void testSendSms() {
-        print("----testReadSms----");
+        print("----testSendSms----");
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage("5556", null, "Testing sendSms", null, null);
         print("Message Sent");
