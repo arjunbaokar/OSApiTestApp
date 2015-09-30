@@ -140,7 +140,7 @@ public class MainActivity extends Activity {
     }
 
     private void androidBeam() {
-        print("Beginning Android Beam...");
+        print("Checking Android Beam support...");
 
         Context context = getApplicationContext();
         NfcAdapter mNfcAdapter;
@@ -156,6 +156,7 @@ public class MainActivity extends Activity {
             mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
             mFileUriCallback = new FileUriCallback();
             mNfcAdapter.setBeamPushUrisCallback(mFileUriCallback,this);
+            print("Android Beam supported! Beaming...");
         }
     }
 
