@@ -10,10 +10,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
-import android.nfc.tech.NfcA;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -136,25 +134,31 @@ public class MainActivity extends Activity {
             writeFileToExternalStorage();
             androidBeam();
         } else {
-            print("External storage is not readable/writeable. Quitting!");
+            print("External storage is not readable/writeable. Quitting.");
         }
     }
 
     private void androidBeam() {
         print("Beginning Android Beam...");
+
+        Context context = getApplicationContext();
         NfcAdapter mNfcAdapter;
+        FileUriCallback mFileUriCallback;
+        PackageManager pacman = context.getPackageManager();
+
         boolean mAndroidBeamAvailable = false;
         // NFC isn't available on the device
-        if (!PackageManager.hasSystemFeature(PackageManager.FEATURE_NFC)) {
-            print("NFC and Android Beam not supported!");
+        if (!pacman.hasSystemFeature(PackageManager.FEATURE_NFC)) {
+            print("NFC and Android Beam not supported! Quitting.");
         } else if (Build.VERSION.SDK_INT <
                 Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            // If Android Beam isn't available, don't continue.
             mAndroidBeamAvailable = false;
-            print("Android Beam not supported!");
+            print("Android Beam not supported! Quitting.");
         } else {
+            // Android beam is available, so continue
             mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-            // TODO: finish this shit mang
+            mFileUriCallback = new FileUriCallback();
+            mNfcAdapter.setBeamPushUrisCallback(mFileUriCallback,this);
         }
     }
 
@@ -179,9 +183,13 @@ public class MainActivity extends Activity {
         File externalDir = Environment.getExternalStorageDirectory();
         File f = new File(externalDir, "test.txt");
 
-        PrintWriter writer = new PrintWriter(f, "UTF-8");
-        writer.println("yoloswaggins");
-        writer.close();
+        try {
+            PrintWriter writer = new PrintWriter(f, "UTF-8");
+            writer.println("yoloswaggins");
+            writer.close();
+        } catch (Exception e) {
+            print("Write failed with error: " + e.toString());
+        }
 
         print("Done!");
     }
