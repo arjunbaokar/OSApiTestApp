@@ -1,8 +1,10 @@
 package com.example.arjun.osapitestapp;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
@@ -12,6 +14,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,7 +24,6 @@ import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,7 +92,7 @@ public class MainActivity extends Activity {
     }
 
     public void nfcClick(View view) {
-        testNfc();
+        testNfcBeam();
     }
 
     public void clearClick(View view) {
@@ -128,9 +130,8 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void testNfc() {
-        // TODO: implement this
-        print("----NFC----");
+    public void testNfcBeam() {
+        print("----NFC Beam----");
         if (isExternalStorageReadable() && isExternalStorageWritable()) {
             writeFileToExternalStorage();
             androidBeam();
@@ -140,7 +141,26 @@ public class MainActivity extends Activity {
     }
 
     private void readNfcTag() {
+        //TODO implement this
+        print("----NFC Tag----");
+        NfcAdapter mAdapter;
+        PendingIntent mPendingIntent;
 
+        mAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (mAdapter == null) {
+            print("NFC not supported on device! Quitting.");
+            return;
+        }
+        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+                getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+        print("Waiting for NFC Tag detected...");
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent){
+        print("NFC tag detected!");
+        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        print("NFC tag data: " + tag.toString());
     }
 
     private void androidBeam() {
@@ -343,34 +363,51 @@ public class MainActivity extends Activity {
         TextView textView = (TextView) findViewById(R.id.textView2);
         textView.append(string + "\n");
     }
-    // Gets location
-        /*LocationListener mLocationListener = new LocationListener() {
-            public void onLocationChanged(final Location location) {
-                Context context = getApplicationContext();
-                CharSequence text = Double.toString(location.getLatitude()) + Double.toString(location.getLongitude());
-                int duration = Toast.LENGTH_SHORT;
-                Toast.makeText(context, text, duration).show();
-            }
 
-            public void onStatusChanged(String string, int num, Bundle bundle) {
-                Context context = getApplicationContext();
-                int duration = Toast.LENGTH_SHORT;
-                CharSequence text = "String: " + string + ", " + "Integer: " + String.valueOf(num)
-                        + ", "+ "Bundle: " + bundle;
-                Toast.makeText(context, text, duration).show();
-            }
+    // Used to parse detected NFC tag from intent
+    /*
+    private void getTagInfo(Intent intent) {
+    Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
-            public void onProviderEnabled(String string) {
-                Context context = getApplicationContext();
-                int duration = Toast.LENGTH_SHORT;
-                CharSequence text = "String: " + string;
-                Toast.makeText(context, text, duration).show();
-            }
+String[] techList = tag.getTechList();
+for (int i = 0; i < techList.length; i++) {
+    if (techList[i].equals(MifareClassic.class.getName())) {
 
-            public void onProviderDisabled(String string) {
-                Context context = getApplicationContext();
-                int duration = Toast.LENGTH_SHORT;
-                CharSequence text = "String: " + string;
-                Toast.makeText(context, text, duration).show();            }
-        };*/
+        MifareClassic mifareClassicTag = MifareClassic.get(tag);
+        switch (mifareClassicTag.getType()) {
+        case MifareClassic.TYPE_CLASSIC:
+            //Type Clssic
+            break;
+        case MifareClassic.TYPE_PLUS:
+            //Type Plus
+            break;
+        case MifareClassic.TYPE_PRO:
+            //Type Pro
+            break;
+        }
+    } else if (techList[i].equals(MifareUltralight.class.getName())) {
+    //For Mifare Ultralight
+        MifareUltralight mifareUlTag = MifareUltralight.get(tag);
+        switch (mifareUlTag.getType()) {
+        case MifareUltralight.TYPE_ULTRALIGHT:
+            break;
+        case MifareUltralight.TYPE_ULTRALIGHT_C:
+
+            break;
+        }
+    } else if (techList[i].equals(IsoDep.class.getName())) {
+        // info[1] = "IsoDep";
+        IsoDep isoDepTag = IsoDep.get(tag);
+
+    } else if (techList[i].equals(Ndef.class.getName())) {
+        Ndef.get(tag);
+
+    } else if (techList[i].equals(NdefFormatable.class.getName())) {
+
+        NdefFormatable ndefFormatableTag = NdefFormatable.get(tag);
+
+    }
+}
+}
+     */
 }
