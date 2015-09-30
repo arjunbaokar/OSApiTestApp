@@ -69,8 +69,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NFC Beam"
-        android:id="@+id/nfc_button"
+        android:text="NFCBeam"
+        android:id="@+id/nfc_beam_button"
         android:nestedScrollingEnabled="false"
         android:onClick="nfcClick"
         android:layout_below="@id/wifi_button"
@@ -79,21 +79,21 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clear"
-        android:id="@+id/clear_button"
+        android:text="NFCTag"
+        android:id="@+id/nfc_tag_button"
         android:nestedScrollingEnabled="false"
-        android:onClick="clearClick"
+        android:onClick="tagClick"
         android:layout_below="@id/sync_button"
-        android:layout_toEndOf="@id/nfc_button" />
+        android:layout_toEndOf="@id/nfc_beam_button" />
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
         android:layout_below="@+id/browser_button"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/clear_button"
+        android:layout_alignEnd="@+id/nfc_tag_button">
 
         <TextView
             android:layout_width="wrap_content"
@@ -104,6 +104,17 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true" />
     </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:id="@+id/clear_button"
+        android:nestedScrollingEnabled="false"
+        android:onClick="clearClick"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/nfc_tag_button"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
