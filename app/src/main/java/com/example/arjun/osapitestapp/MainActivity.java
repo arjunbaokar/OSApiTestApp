@@ -95,6 +95,10 @@ public class MainActivity extends Activity {
         testNfcBeam();
     }
 
+    public void tagClick(View view) {
+        readNfcTag();
+    }
+
     public void clearClick(View view) {
         TextView textView = (TextView) findViewById(R.id.textView2);
         textView.setText("");
@@ -141,7 +145,7 @@ public class MainActivity extends Activity {
     }
 
     private void readNfcTag() {
-        //TODO implement this
+        //TODO: test this
         print("----NFC Tag----");
         NfcAdapter mAdapter;
         PendingIntent mPendingIntent;
