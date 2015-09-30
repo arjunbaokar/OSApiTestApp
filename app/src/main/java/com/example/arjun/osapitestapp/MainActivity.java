@@ -147,16 +147,12 @@ public class MainActivity extends Activity {
         FileUriCallback mFileUriCallback;
         PackageManager pacman = context.getPackageManager();
 
-        boolean mAndroidBeamAvailable = false;
-        // NFC isn't available on the device
         if (!pacman.hasSystemFeature(PackageManager.FEATURE_NFC)) {
             print("NFC and Android Beam not supported! Quitting.");
         } else if (Build.VERSION.SDK_INT <
                 Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            mAndroidBeamAvailable = false;
             print("Android Beam not supported! Quitting.");
         } else {
-            // Android beam is available, so continue
             mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
             mFileUriCallback = new FileUriCallback();
             mNfcAdapter.setBeamPushUrisCallback(mFileUriCallback,this);
@@ -174,6 +170,7 @@ public class MainActivity extends Activity {
             File dir = Environment.getExternalStorageDirectory();
             File file = new File(dir, "test.txt");
             file.setReadable(true, false);    // readable=true, ownerOnly=false
+            print("Beam URIs requested. Transferring files...");
             return new Uri[] { Uri.fromFile(file) };
         }
     }
