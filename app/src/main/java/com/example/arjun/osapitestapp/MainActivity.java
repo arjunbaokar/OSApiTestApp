@@ -3,13 +3,20 @@ package com.example.arjun.osapitestapp;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcEvent;
+import android.nfc.tech.NfcA;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Browser;
 import android.provider.CallLog;
 import android.telephony.SmsManager;
@@ -20,6 +27,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.PrintWriter;
 
 public class MainActivity extends Activity {
 
@@ -122,7 +132,77 @@ public class MainActivity extends Activity {
     public void testNfc() {
         // TODO: implement this
         print("----NFC----");
-        print("Not implemented.");
+        if (isExternalStorageReadable() && isExternalStorageWritable()) {
+            writeFileToExternalStorage();
+            androidBeam();
+        } else {
+            print("External storage is not readable/writeable. Quitting!");
+        }
+    }
+
+    private void androidBeam() {
+        print("Beginning Android Beam...");
+        NfcAdapter mNfcAdapter;
+        boolean mAndroidBeamAvailable = false;
+        // NFC isn't available on the device
+        if (!PackageManager.hasSystemFeature(PackageManager.FEATURE_NFC)) {
+            print("NFC and Android Beam not supported!");
+        } else if (Build.VERSION.SDK_INT <
+                Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            // If Android Beam isn't available, don't continue.
+            mAndroidBeamAvailable = false;
+            print("Android Beam not supported!");
+        } else {
+            mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            // TODO: finish this shit mang
+        }
+    }
+
+    private class FileUriCallback implements NfcAdapter.CreateBeamUrisCallback {
+        public FileUriCallback() {
+        }
+        /**
+         * Create content URIs as needed to share with another device
+         */
+        @Override
+        public Uri[] createBeamUris(NfcEvent event) {    // send files
+            File dir = Environment.getExternalStorageDirectory();
+            File file = new File(dir, "test.txt");
+            file.setReadable(true, false);    // readable=true, ownerOnly=false
+            return new Uri[] { Uri.fromFile(file) };
+        }
+    }
+
+    private void writeFileToExternalStorage() {
+        print("Writing test.txt to external storage...");
+
+        File externalDir = Environment.getExternalStorageDirectory();
+        File f = new File(externalDir, "test.txt");
+
+        PrintWriter writer = new PrintWriter(f, "UTF-8");
+        writer.println("yoloswaggins");
+        writer.close();
+
+        print("Done!");
+    }
+
+    /* Checks if external storage is available for read and write */
+    private boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    /* Checks if external storage is available to at least read */
+    private boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            return true;
+        }
+        return false;
     }
 
     public void testGpsLocation() {
