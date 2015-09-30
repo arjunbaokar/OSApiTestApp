@@ -139,6 +139,10 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void readNfcTag() {
+
+    }
+
     private void androidBeam() {
         print("Checking Android Beam support...");
 
