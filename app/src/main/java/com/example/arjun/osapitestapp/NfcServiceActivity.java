@@ -14,10 +14,10 @@ public class NfcServiceActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nfc_service);
 
-        Context con = getApplicationContext();
-        Intent service = new Intent(con, TargetService.class);
-        con.startService(service);
-        finish();
+//        Context con = getApplicationContext();
+//        Intent service = new Intent(con, TargetService.class); // FIXME: TargetService doesn't exist in Android 5
+//        con.startService(service);
+//        finish();
     }
 
     @Override
