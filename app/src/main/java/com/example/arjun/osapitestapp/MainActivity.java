@@ -12,12 +12,14 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
 import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.Browser;
 import android.provider.CallLog;
 import android.telephony.SmsManager;
@@ -28,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -158,6 +161,32 @@ public class MainActivity extends Activity {
         mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
                 getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         print("Waiting for NFC Tag detected...");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Intent intent = getIntent();
+
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            if (rawMsgs != null) {
+                NdefMessage[] msgs = new NdefMessage[rawMsgs.length];
+                for (int i = 0; i < rawMsgs.length; i++) {
+                    msgs[i] = (NdefMessage) rawMsgs[i];
+                    Toast.makeText(getApplicationContext(), msgs[i].toString(), Toast.LENGTH_SHORT);
+                }
+            }
+        }
+
+        if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(getIntent().getAction())) {
+            Toast.makeText(getApplicationContext(), intent.getExtras().toString(), Toast.LENGTH_SHORT);
+        }
+
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(getIntent().getAction())) {
+            Toast.makeText(getApplicationContext(), intent.getExtras().toString(), Toast.LENGTH_SHORT);
+        }
     }
 
     @Override
