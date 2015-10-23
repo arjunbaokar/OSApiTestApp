@@ -99,10 +99,6 @@ public class MainActivity extends Activity {
         testNfcBeam();
     }
 
-    public void tagClick(View view) {
-        readNfcTag();
-    }
-
     public void clearClick(View view) {
         TextView textView = (TextView) findViewById(R.id.textView2);
         textView.setText("");
@@ -148,22 +144,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void readNfcTag() {
-        //TODO: test this
-        print("----NFC Tag----");
-        NfcAdapter mAdapter;
-        PendingIntent mPendingIntent;
-
-        mAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (mAdapter == null) {
-            print("NFC not supported on device! Quitting.");
-            return;
-        }
-        mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-                getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        print("Waiting for NFC Tag detected...");
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -194,8 +174,12 @@ public class MainActivity extends Activity {
     protected void onNewIntent(Intent intent){
         super.onNewIntent(intent);
 
+        if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
+            print("---NFC Tag---");
+        }
+
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
-            print("ACTION_NDEF_DISCOVERED");
+            print("NDEF Tag Discovered!");
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             if (rawMsgs != null) {
                 NdefMessage[] msgs = new NdefMessage[rawMsgs.length];
@@ -207,18 +191,14 @@ public class MainActivity extends Activity {
         }
 
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
-            print("ACTION_TECH_DISCOVERED");
+            print("Tech Discovered!");
             print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
         }
 
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
-            print("ACTION_TAG_DISCOVERED");
+            print("Non-NDEF, non-recognized tech-type NFC Tag Discovered!");
             print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
         }
-
-//        print("NFC tag detected!");
-//        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-//        print("NFC tag data: " + tag.toString());
     }
 
     private void androidBeam() {
