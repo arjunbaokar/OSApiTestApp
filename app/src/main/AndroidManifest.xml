@@ -54,10 +54,6 @@
                 android:resource="@xml/techlist" />
 
         </activity>
-        <activity
-            android:name=".NfcServiceActivity"
-            android:label="@string/title_activity_nfc_service" >
-        </activity>
     </application>
 
 </manifest>
