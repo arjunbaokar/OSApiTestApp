@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
@@ -167,33 +168,57 @@ public class MainActivity extends Activity {
     public void onResume() {
         super.onResume();
 
-        Intent intent = getIntent();
+        enableForegroundDispatchSystem();
+    }
 
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(getIntent().getAction())) {
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfcAdapter.disableForegroundDispatch(this);
+    }
+
+    private void enableForegroundDispatchSystem() {
+
+        Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        IntentFilter[] intentFilters = new IntentFilter[]{};
+        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+
+        if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            print("ACTION_NDEF_DISCOVERED");
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             if (rawMsgs != null) {
                 NdefMessage[] msgs = new NdefMessage[rawMsgs.length];
                 for (int i = 0; i < rawMsgs.length; i++) {
                     msgs[i] = (NdefMessage) rawMsgs[i];
-                    Toast.makeText(getApplicationContext(), msgs[i].toString(), Toast.LENGTH_SHORT);
+                    print(msgs[i].toString());
                 }
             }
         }
 
-        if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(getIntent().getAction())) {
-            Toast.makeText(getApplicationContext(), intent.getExtras().toString(), Toast.LENGTH_SHORT);
+        if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
+            print("ACTION_TECH_DISCOVERED");
+            print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
         }
 
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(getIntent().getAction())) {
-            Toast.makeText(getApplicationContext(), intent.getExtras().toString(), Toast.LENGTH_SHORT);
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+            print("ACTION_TAG_DISCOVERED");
+            print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
         }
-    }
 
-    @Override
-    protected void onNewIntent(Intent intent){
-        print("NFC tag detected!");
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-        print("NFC tag data: " + tag.toString());
+//        print("NFC tag detected!");
+//        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+//        print("NFC tag data: " + tag.toString());
     }
 
     private void androidBeam() {
