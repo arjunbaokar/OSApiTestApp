@@ -164,7 +164,11 @@ public class MainActivity extends Activity {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
-        IntentFilter[] intentFilters = new IntentFilter[]{};
+        IntentFilter[] intentFilters = new IntentFilter[] {
+                new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED),
+                new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED),
+                new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED)
+        };
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcAdapter.enableForegroundDispatch(this, pendingIntent, intentFilters, null);
     }
