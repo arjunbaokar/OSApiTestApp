@@ -31,7 +31,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -179,7 +178,7 @@ public class MainActivity extends Activity {
         }
 
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
-            print("NDEF Tag Discovered!");
+            print("ACTION_NDEF_DISCOVERED: NDEF Tag Discovered!");
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             if (rawMsgs != null) {
                 NdefMessage[] msgs = new NdefMessage[rawMsgs.length];
@@ -191,12 +190,12 @@ public class MainActivity extends Activity {
         }
 
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
-            print("Tech Discovered!");
+            print("ACTION_TECH_DISCOVERED: Tech Discovered!");
             print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
         }
 
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
-            print("Non-NDEF, non-recognized tech-type NFC Tag Discovered!");
+            print("ACTION_TAG_DISCOVERED: Non-NDEF Tag Discovered!");
             print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
         }
     }
@@ -401,51 +400,4 @@ public class MainActivity extends Activity {
         TextView textView = (TextView) findViewById(R.id.textView2);
         textView.append(string + "\n");
     }
-
-    // Used to parse detected NFC tag from intent
-    /*
-    private void getTagInfo(Intent intent) {
-    Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-
-String[] techList = tag.getTechList();
-for (int i = 0; i < techList.length; i++) {
-    if (techList[i].equals(MifareClassic.class.getName())) {
-
-        MifareClassic mifareClassicTag = MifareClassic.get(tag);
-        switch (mifareClassicTag.getType()) {
-        case MifareClassic.TYPE_CLASSIC:
-            //Type Clssic
-            break;
-        case MifareClassic.TYPE_PLUS:
-            //Type Plus
-            break;
-        case MifareClassic.TYPE_PRO:
-            //Type Pro
-            break;
-        }
-    } else if (techList[i].equals(MifareUltralight.class.getName())) {
-    //For Mifare Ultralight
-        MifareUltralight mifareUlTag = MifareUltralight.get(tag);
-        switch (mifareUlTag.getType()) {
-        case MifareUltralight.TYPE_ULTRALIGHT:
-            break;
-        case MifareUltralight.TYPE_ULTRALIGHT_C:
-
-            break;
-        }
-    } else if (techList[i].equals(IsoDep.class.getName())) {
-        // info[1] = "IsoDep";
-        IsoDep isoDepTag = IsoDep.get(tag);
-
-    } else if (techList[i].equals(Ndef.class.getName())) {
-        Ndef.get(tag);
-
-    } else if (techList[i].equals(NdefFormatable.class.getName())) {
-
-        NdefFormatable ndefFormatableTag = NdefFormatable.get(tag);
-
-    }
-}
-}
-     */
 }
