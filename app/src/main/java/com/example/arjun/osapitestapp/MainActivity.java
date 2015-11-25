@@ -16,8 +16,8 @@ import android.net.wifi.WifiManager;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
-import android.nfc.Tag;
 import android.os.Build;
+import android.os.SystemClock;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
@@ -67,31 +67,43 @@ public class MainActivity extends Activity {
 
     /** Called when the user touches the button */
     public void locationClick(View view) {
+        long startTime = SystemClock.uptimeMillis();
         testCellLocation();
         testGpsLocation();
+        print("Time taken: " + (SystemClock.uptimeMillis()-startTime));
     }
 
     public void smsClick(View view) {
+        long startTime = SystemClock.uptimeMillis();
         testReadSms();
         testSendSms();
+        print("Time taken: " + (SystemClock.uptimeMillis() - startTime));
     }
 
     public void wifiClick(View view) {
+        long startTime = SystemClock.uptimeMillis();
         testWifi();
+        print("Time taken: " + (SystemClock.uptimeMillis() - startTime));
     }
 
     public void syncClick (View view) {
+        long startTime = SystemClock.uptimeMillis();
         testWriteSyncSettings();
+        print("Time taken: " + (SystemClock.uptimeMillis() - startTime));
     }
 
     public void browserClick(View view) {
+        long startTime = SystemClock.uptimeMillis();
         testChromeHistory();
         testAllVisitedUrls();
         testAllBookmarks();
+        print("Time taken: " + (SystemClock.uptimeMillis() - startTime));
     }
 
     public void callLogsClick(View view) {
+        long startTime = SystemClock.uptimeMillis();
         testReadCallLogs();
+        print("Time taken: " + (SystemClock.uptimeMillis() - startTime));
     }
 
     public void nfcClick(View view) {
@@ -170,7 +182,7 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onNewIntent(Intent intent){
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
