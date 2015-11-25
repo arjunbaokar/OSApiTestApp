@@ -183,9 +183,8 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-
         long timeTaken = SystemClock.uptimeMillis();
-
+        
         super.onNewIntent(intent);
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
@@ -214,7 +213,7 @@ public class MainActivity extends Activity {
             print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
         }
 
-        print("onNewIntent() time taken: " + timeTaken);
+        print("onNewIntent() time taken: " + (SystemClock.uptimeMillis()-timeTaken));
     }
 
     private void androidBeam() {
