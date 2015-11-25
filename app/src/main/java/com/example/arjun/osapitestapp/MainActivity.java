@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.Browser;
 import android.provider.CallLog;
+import android.provider.MediaStore;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
@@ -36,6 +38,9 @@ import java.io.File;
 import java.io.PrintWriter;
 
 public class MainActivity extends Activity {
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    long cameraDispatchTime = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +113,11 @@ public class MainActivity extends Activity {
 
     public void nfcClick(View view) {
         testNfcBeam();
+    }
+
+    public void cameraClick(View view) {
+        dispatchTakePictureIntent(); // for camera 1
+        // TODO: for camera 2
     }
 
     public void clearClick(View view) {
@@ -184,7 +194,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onNewIntent(Intent intent) {
         long timeTaken = SystemClock.uptimeMillis();
-        
+
         super.onNewIntent(intent);
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
@@ -412,6 +422,23 @@ public class MainActivity extends Activity {
         smsManager.sendTextMessage("5556", null, "Testing sendSms", null, null);
         print("Message Sent");
     }
+
+    public void dispatchTakePictureIntent() {
+        print("----Camera1:takePicture----");
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraDispatchTime = SystemClock.uptimeMillis();
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            print("Time taken: " + (SystemClock.uptimeMillis()-cameraDispatchTime));
+        }
+    }
+
     public void print(String string) {
         TextView textView = (TextView) findViewById(R.id.textView2);
         textView.append(string + "\n");

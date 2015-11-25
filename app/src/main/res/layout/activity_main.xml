@@ -76,15 +76,15 @@
         android:layout_below="@id/wifi_button"
         android:layout_toEndOf="@id/call_logs_button" />
 
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="NFCTag"-->
-        <!--android:id="@+id/nfc_tag_button"-->
-        <!--android:nestedScrollingEnabled="false"-->
-        <!--android:onClick="tagClick"-->
-        <!--android:layout_below="@id/sync_button"-->
-        <!--android:layout_toEndOf="@id/nfc_beam_button" />-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera"
+        android:id="@+id/camera_button"
+        android:nestedScrollingEnabled="false"
+        android:onClick="cameraClick"
+        android:layout_below="@id/sync_button"
+        android:layout_toEndOf="@id/nfc_beam_button" />
 
     <ScrollView
         android:layout_width="wrap_content"
