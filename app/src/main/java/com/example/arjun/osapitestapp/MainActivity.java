@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -29,18 +29,27 @@ import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class MainActivity extends Activity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     long cameraDispatchTime = -1;
+    private Camera mCamera;
+    private CameraPreview mCameraPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +84,7 @@ public class MainActivity extends Activity {
         long startTime = SystemClock.uptimeMillis();
         testCellLocation();
         testGpsLocation();
-        print("Time taken: " + (SystemClock.uptimeMillis()-startTime));
+        print("Time taken: " + (SystemClock.uptimeMillis() - startTime));
     }
 
     public void smsClick(View view) {
@@ -116,7 +125,8 @@ public class MainActivity extends Activity {
     }
 
     public void cameraClick(View view) {
-        dispatchTakePictureIntent(); // for camera 1
+//        dispatchTakePictureIntent(); // for intent-based camera 1. spawns new activity.
+        camera1TakePicture();
         // TODO: for camera 2
     }
 
@@ -223,7 +233,7 @@ public class MainActivity extends Activity {
             print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
         }
 
-        print("onNewIntent() time taken: " + (SystemClock.uptimeMillis()-timeTaken));
+        print("onNewIntent() time taken: " + (SystemClock.uptimeMillis() - timeTaken));
     }
 
     private void androidBeam() {
@@ -430,6 +440,71 @@ public class MainActivity extends Activity {
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
+    }
+
+    public void camera1TakePicture() {
+        mCamera = getCameraInstance();
+        mCameraPreview = new CameraPreview(this, mCamera);
+        long startTime = SystemClock.uptimeMillis();
+        mCamera.takePicture(null, null, mPicture);
+        print("Time Taken: " + (SystemClock.uptimeMillis()-startTime));
+    }
+
+    /**
+     * Helper method to access the camera returns null if it cannot get the
+     * camera or does not exist
+     *
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    private Camera getCameraInstance() {
+        Camera camera = null;
+        try {
+            camera = Camera.open();
+        } catch (Exception e) {
+            // cannot get camera or does not exist
+        }
+        return camera;
+    }
+
+    @SuppressWarnings("deprecation")
+    Camera.PictureCallback mPicture = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            File pictureFile = getOutputMediaFile();
+            if (pictureFile == null) {
+                return;
+            }
+            try {
+                FileOutputStream fos = new FileOutputStream(pictureFile);
+                fos.write(data);
+                fos.close();
+            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
+            }
+        }
+    };
+
+    private static File getOutputMediaFile() {
+        File mediaStorageDir = new File(
+                Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                "MyCameraApp");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+                .format(new Date());
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator
+                + "IMG_" + timeStamp + ".jpg");
+
+        return mediaFile;
     }
 
     @Override
