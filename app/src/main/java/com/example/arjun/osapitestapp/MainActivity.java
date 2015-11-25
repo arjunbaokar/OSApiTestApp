@@ -183,16 +183,16 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
 
-        long timeTaken = -1
+        long timeTaken = SystemClock.uptimeMillis();
+
+        super.onNewIntent(intent);
 
         if (intent.hasExtra(NfcAdapter.EXTRA_TAG)) {
             print("---NFC Tag---");
         }
 
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
-            timeTaken = SystemClock.uptimeMillis();
             print("ACTION_NDEF_DISCOVERED: NDEF Tag Discovered!");
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             if (rawMsgs != null) {
@@ -202,26 +202,19 @@ public class MainActivity extends Activity {
                     print(msgs[i].toString());
                 }
             }
-            timeTaken = SystemClock.uptimeMillis() - timeTaken;
         }
 
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())) {
-            timeTaken = SystemClock.uptimeMillis();
             print("ACTION_TECH_DISCOVERED: Tech Discovered!");
             print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
-            timeTaken = SystemClock.uptimeMillis() - timeTaken;
         }
 
         if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
-            timeTaken = SystemClock.uptimeMillis();
             print("ACTION_TAG_DISCOVERED: Non-NDEF Tag Discovered!");
             print(intent.getParcelableExtra(NfcAdapter.EXTRA_TAG).toString());
-            timeTaken = SystemClock.uptimeMillis() - timeTaken;
         }
 
-        if (timeTaken > -1) {
-            print("Time taken: " + timeTaken);
-        }
+        print("onNewIntent() time taken: " + timeTaken);
     }
 
     private void androidBeam() {
