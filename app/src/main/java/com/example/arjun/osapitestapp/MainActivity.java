@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
                 mCamera .startPreview();
                 mCameraPreview.setCamera(mCamera);
             } catch (RuntimeException ex){
-                Log.i("yoloswaggins", "couldn't resume camera");
+                Log.i("OSApiTestApp", "couldn't resume camera");
             }
         }
 
@@ -467,6 +467,7 @@ public class MainActivity extends Activity {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public void camera1TakePicture() {
 //        mCamera = getCameraInstance();
 //        mCameraPreview = new Preview(this, (SurfaceView)findViewById(R.id.surface_view_camera));
@@ -477,8 +478,15 @@ public class MainActivity extends Activity {
 //        preview.addView(mCameraPreview);
 
         long startTime = SystemClock.uptimeMillis();
+        // DEBUG
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        mCamera.getCameraInfo(0, cameraInfo);
+        Log.i("OSApiTestApp", "Camera Facing: " + cameraInfo.facing);
+
         mCamera.takePicture(null, null, mPicture);
-        print("Time Taken: " + (SystemClock.uptimeMillis()-startTime));
+        print("Time Taken: " + (SystemClock.uptimeMillis() - startTime));
+
+        mCamera.release();
     }
 
     /**
@@ -491,7 +499,7 @@ public class MainActivity extends Activity {
     private Camera getCameraInstance() {
         Camera camera = null;
         try {
-            camera = Camera.open();
+            camera = Camera.open(0);
         } catch (Exception e) {
             // cannot get camera or does not exist
             Log.e("OSApiTestApp", "Could not open camera");
