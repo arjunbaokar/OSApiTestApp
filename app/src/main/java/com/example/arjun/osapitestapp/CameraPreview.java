@@ -2,6 +2,7 @@ package com.example.arjun.osapitestapp;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -24,6 +25,7 @@ public class CameraPreview extends SurfaceView implements
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        Log.i("YOLOSWAGGINS", "i am here");
         try {
             mCamera.setPreviewDisplay(surfaceHolder);
             mCamera.startPreview();

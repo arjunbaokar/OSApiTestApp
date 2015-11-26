@@ -32,6 +32,7 @@ import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -446,7 +447,9 @@ public class MainActivity extends Activity {
         mCamera = getCameraInstance();
         mCameraPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        mCameraPreview.setVisibility(View.VISIBLE); // desperation mode attempts to fix
         preview.addView(mCameraPreview);
+
         long startTime = SystemClock.uptimeMillis();
         mCamera.takePicture(null, null, mPicture);
         print("Time Taken: " + (SystemClock.uptimeMillis()-startTime));
