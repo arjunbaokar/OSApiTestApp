@@ -190,11 +190,12 @@ public class MainActivity extends Activity {
         int numCams = Camera.getNumberOfCameras();
         if(numCams > 0){
             try{
-                mCamera = Camera.open(0);
+                mCamera = Camera.open();
                 mCamera .startPreview();
                 mCameraPreview.setCamera(mCamera);
             } catch (RuntimeException ex){
                 Log.i("OSApiTestApp", "couldn't resume camera");
+                ex.printStackTrace();
             }
         }
 
@@ -469,14 +470,6 @@ public class MainActivity extends Activity {
 
     @SuppressWarnings("deprecation")
     public void camera1TakePicture() {
-//        mCamera = getCameraInstance();
-//        mCameraPreview = new Preview(this, (SurfaceView)findViewById(R.id.surface_view_camera));
-//        ((FrameLayout) findViewById(R.id.camera_preview)).addView(mCameraPreview);
-//        mCameraPreview.setKeepScreenOn(true);
-//        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-//        mCameraPreview.setVisibility(View.VISIBLE); // desperation mode attempts to fix
-//        preview.addView(mCameraPreview);
-
         long startTime = SystemClock.uptimeMillis();
         // DEBUG
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
@@ -499,7 +492,7 @@ public class MainActivity extends Activity {
     private Camera getCameraInstance() {
         Camera camera = null;
         try {
-            camera = Camera.open(0);
+            camera = Camera.open();
         } catch (Exception e) {
             // cannot get camera or does not exist
             Log.e("OSApiTestApp", "Could not open camera");
