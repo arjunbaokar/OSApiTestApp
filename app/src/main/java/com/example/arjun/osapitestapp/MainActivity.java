@@ -445,6 +445,8 @@ public class MainActivity extends Activity {
     public void camera1TakePicture() {
         mCamera = getCameraInstance();
         mCameraPreview = new CameraPreview(this, mCamera);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview.addView(mCameraPreview);
         long startTime = SystemClock.uptimeMillis();
         mCamera.takePicture(null, null, mPicture);
         print("Time Taken: " + (SystemClock.uptimeMillis()-startTime));
@@ -463,6 +465,7 @@ public class MainActivity extends Activity {
             camera = Camera.open();
         } catch (Exception e) {
             // cannot get camera or does not exist
+            Log.e("OSApiTestApp", "Could not open camera");
         }
         return camera;
     }
@@ -480,8 +483,9 @@ public class MainActivity extends Activity {
                 fos.write(data);
                 fos.close();
             } catch (FileNotFoundException e) {
-
+                e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     };
