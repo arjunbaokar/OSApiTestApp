@@ -94,9 +94,10 @@
         android:layout_below="@+id/browser_button"
         android:layout_alignParentRight="true">
 
-        <Button
-            android:layout_width="10px"
-            android:layout_height="10px" />
+        <SurfaceView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/surface_view_camera"/>
 
     </FrameLayout>
 

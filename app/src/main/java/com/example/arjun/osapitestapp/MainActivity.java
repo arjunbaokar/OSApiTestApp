@@ -50,12 +50,17 @@ public class MainActivity extends Activity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     long cameraDispatchTime = -1;
     private Camera mCamera;
-    private CameraPreview mCameraPreview;
+    private Preview mCameraPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mCamera = getCameraInstance();
+        mCameraPreview = new Preview(this, (SurfaceView)findViewById(R.id.surface_view_camera));
+        ((FrameLayout) findViewById(R.id.camera_preview)).addView(mCameraPreview);
+        mCameraPreview.setKeepScreenOn(true);
     }
 
     @Override
@@ -181,6 +186,18 @@ public class MainActivity extends Activity {
         super.onResume();
 
         enableForegroundDispatchSystem();
+
+        int numCams = Camera.getNumberOfCameras();
+        if(numCams > 0){
+            try{
+                mCamera = Camera.open(0);
+                mCamera .startPreview();
+                mCameraPreview.setCamera(mCamera);
+            } catch (RuntimeException ex){
+                Log.i("yoloswaggins", "couldn't resume camera");
+            }
+        }
+
     }
 
     @Override
@@ -189,6 +206,13 @@ public class MainActivity extends Activity {
 
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcAdapter.disableForegroundDispatch(this);
+
+        if(mCamera != null) {
+            mCamera.stopPreview();
+            mCameraPreview.setCamera(null);
+            mCamera.release();
+            mCamera = null;
+        }
     }
 
     private void enableForegroundDispatchSystem() {
@@ -444,11 +468,13 @@ public class MainActivity extends Activity {
     }
 
     public void camera1TakePicture() {
-        mCamera = getCameraInstance();
-        mCameraPreview = new CameraPreview(this, mCamera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        mCameraPreview.setVisibility(View.VISIBLE); // desperation mode attempts to fix
-        preview.addView(mCameraPreview);
+//        mCamera = getCameraInstance();
+//        mCameraPreview = new Preview(this, (SurfaceView)findViewById(R.id.surface_view_camera));
+//        ((FrameLayout) findViewById(R.id.camera_preview)).addView(mCameraPreview);
+//        mCameraPreview.setKeepScreenOn(true);
+//        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+//        mCameraPreview.setVisibility(View.VISIBLE); // desperation mode attempts to fix
+//        preview.addView(mCameraPreview);
 
         long startTime = SystemClock.uptimeMillis();
         mCamera.takePicture(null, null, mPicture);
