@@ -76,30 +76,30 @@
         android:layout_below="@id/wifi_button"
         android:layout_toEndOf="@id/call_logs_button" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Camera"
-        android:id="@+id/camera_button"
-        android:nestedScrollingEnabled="false"
-        android:onClick="cameraClick"
-        android:layout_below="@id/sync_button"
-        android:layout_toEndOf="@id/nfc_beam_button" />
+    <!--<Button-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Camera"-->
+        <!--android:id="@+id/camera_button"-->
+        <!--android:nestedScrollingEnabled="false"-->
+        <!--android:onClick="cameraClick"-->
+        <!--android:layout_below="@id/sync_button"-->
+        <!--android:layout_toEndOf="@id/nfc_beam_button" />-->
 
-    <FrameLayout
-        android:id="@+id/camera_preview"
-        android:layout_width="150px"
-        android:layout_height="150px"
-        android:layout_weight="1"
-        android:layout_below="@+id/browser_button"
-        android:layout_alignParentRight="true">
+    <!--<FrameLayout-->
+        <!--android:id="@+id/camera_preview"-->
+        <!--android:layout_width="150px"-->
+        <!--android:layout_height="150px"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_below="@+id/browser_button"-->
+        <!--android:layout_alignParentRight="true">-->
 
-        <SurfaceView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/surface_view_camera"/>
+        <!--<SurfaceView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:id="@+id/surface_view_camera"/>-->
 
-    </FrameLayout>
+    <!--</FrameLayout>-->
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
         android:layout_below="@+id/browser_button"
         android:layout_alignParentLeft="true"
         android:layout_above="@+id/clear_button"
-        android:layout_alignEnd="@+id/camera_button">
+        android:layout_alignEnd="@+id/sync_button">
 
         <TextView
             android:layout_width="wrap_content"
