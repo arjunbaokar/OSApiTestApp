@@ -56,12 +56,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        mCamera = getCameraInstance();
-//        mCameraPreview = new Preview(this, (SurfaceView)findViewById(R.id.surface_view_camera));
-//        ((FrameLayout) findViewById(R.id.camera_preview)).addView(mCameraPreview);
-//        mCameraPreview.setKeepScreenOn(true);
-//        mCamera.startPreview();
     }
 
     @Override
@@ -188,17 +182,17 @@ public class MainActivity extends Activity {
 
         enableForegroundDispatchSystem();
 
-        int numCams = Camera.getNumberOfCameras();
-        if(numCams > 0){
-            try{
-                mCamera = Camera.open();
-                mCamera .startPreview();
-                mCameraPreview.setCamera(mCamera);
-            } catch (RuntimeException ex){
-                Log.i("OSApiTestApp", "couldn't resume camera");
-                ex.printStackTrace();
-            }
-        }
+//        int numCams = Camera.getNumberOfCameras();
+//        if(numCams > 0){
+//            try{
+//                mCamera = Camera.open();
+//                mCamera .startPreview();
+//                mCameraPreview.setCamera(mCamera);
+//            } catch (RuntimeException ex){
+//                Log.i("OSApiTestApp", "couldn't resume camera");
+//                ex.printStackTrace();
+//            }
+//        }
 
     }
 
@@ -209,12 +203,12 @@ public class MainActivity extends Activity {
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         nfcAdapter.disableForegroundDispatch(this);
 
-        if(mCamera != null) {
-            mCamera.stopPreview();
-            mCameraPreview.setCamera(null);
-            mCamera.release();
-            mCamera = null;
-        }
+//        if(mCamera != null) {
+//            mCamera.stopPreview();
+//            mCameraPreview.setCamera(null);
+//            mCamera.release();
+//            mCamera = null;
+//        }
     }
 
     private void enableForegroundDispatchSystem() {
