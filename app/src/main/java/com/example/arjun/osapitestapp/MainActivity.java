@@ -57,11 +57,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mCamera = getCameraInstance();
+//        mCamera = getCameraInstance();
 //        mCameraPreview = new Preview(this, (SurfaceView)findViewById(R.id.surface_view_camera));
 //        ((FrameLayout) findViewById(R.id.camera_preview)).addView(mCameraPreview);
-        mCameraPreview.setKeepScreenOn(true);
-        mCamera.startPreview();
+//        mCameraPreview.setKeepScreenOn(true);
+//        mCamera.startPreview();
     }
 
     @Override
